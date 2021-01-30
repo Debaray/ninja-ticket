@@ -28,9 +28,10 @@
         </nav>
     </header>
 
-    <!--Booking Section-->
+
     <main class="main-content container">
-        <div class="booking-form">
+        <!--Booking Section-->
+        <div id="booking-box" class="booking-form">
             <h3>Booking Flights</h3>
             <div class="input-group">
                 <label for="">Flying From</label>
@@ -65,7 +66,6 @@
                     <!-- <p>+ -</p> -->
                 </div>
             </div>
-
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
@@ -89,7 +89,6 @@
                         <p id="sub-total">$0</p>
                     </div>
                 </div>
-
                 <div class="amount">
                     <div class="left">
                         <p>Charge 10% VAT</p>
@@ -110,7 +109,41 @@
             </div>
             <button onclick="bookTicketNow()" class="btn-style">Book Now</button>
         </div>
-
+        <!--Congratulation Section-->
+        <div id="congratulation-box" class="congratulation-message">
+            <h3>Congratulations!</h3>
+            <h4>You Successfully Book tickets.</h4>
+            <h5>First Class ($150) Ticket Quantity : <span id="first-class-quantity">0</span></h5>
+            <h5>Economy ($100) Ticket Quantity : <span id="economy-quantity">0</span></h5>
+            <br>
+            <div class="calculations">
+                <div class="amount">
+                    <div class="left">
+                        <p>Subtotal</p>
+                    </div>
+                    <div class="right">
+                        <p id="congrats-sub-total">$0</p>
+                    </div>
+                </div>
+                <div class="amount">
+                    <div class="left">
+                        <p>Charge 10% VAT</p>
+                    </div>
+                    <div class="right">
+                        <p id="congrats-tax">$0</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="amount">
+                    <div class="left">
+                        <h4>Total</h4>
+                    </div>
+                    <div class="right">
+                        <p id="congrats-grand-total">$0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="booking-content">
             <h1>discover <br> around the world</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias
@@ -119,16 +152,35 @@
         </div>
         </section>
         <script>
-
-            function bookTicketNow(){
+            //after click Book Now Button
+            function bookTicketNow() {
                 const firstClassInput = getValue('first-class-input');
                 const economyInput = getValue('economy-input');
-                if(firstClassInput <= 0 && economyInput <= 0)
-                {
-                    alert("Alert!!Please input at least any type of ticket!");
+                if (firstClassInput <= 0 && economyInput <= 0) {
+                    alert("Alert!! Please input at least any type of ticket!");
                     return;
                 }
+                setCongratulationsText();
             }
+            //set text if successfully booking tickets
+            function setCongratulationsText() {
+                const firstClassQuantity = getValue('first-class-input');
+                setInnerText('first-class-quantity', firstClassQuantity,false);
+                const economyQuantity = getValue('economy-input');
+                setInnerText('economy-quantity', economyQuantity,false);
+
+                const subTotal = document.getElementById('sub-total').innerText;
+                setInnerText('congrats-sub-total', subTotal,false);
+
+                const tax = document.getElementById('tax').innerText;
+                setInnerText('congrats-tax', tax,false);
+
+                const grandTotal = document.getElementById('grand-total').innerText;
+                setInnerText('congrats-grand-total', grandTotal,false);
+                document.getElementById('booking-box').style.display = "none";
+                document.getElementById('congratulation-box').style.display = "block";
+            }
+
             //handled when the user gives input by typing
             function handleTicketBookByTyping(ticket) {
                 let ticketCount = getValue(ticket + '-input');
@@ -163,20 +215,22 @@
                 calculateTotal();
             }
 
+            //calculate total price for tickets
             function calculateTotal() {
                 const firstClassTicket = getValue('first-class-input');
                 const economyTicket = getValue('economy-input');
 
                 const subTotal = firstClassTicket * 150 + economyTicket * 100;
-                setInnerText('sub-total', subTotal);
+                setInnerText('sub-total', subTotal, true);
 
                 const tax = Math.round(subTotal * .1);
-                setInnerText('tax', tax);
+                setInnerText('tax', tax, true);
 
                 const grandTotal = subTotal + tax;
-                setInnerText('grand-total', grandTotal);
+                setInnerText('grand-total', grandTotal, true);
             }
 
+            //get input number value
             function getValue(ticket) {
                 const ticketInput = document.getElementById(ticket);
                 let ticketCount = 0;
@@ -187,8 +241,13 @@
                 return ticketCount;
             }
 
-            function setInnerText(ticket, totalPrice) {
-                document.getElementById(ticket).innerText = '$' + totalPrice;
+            function setInnerText(ticket, totalPrice, isBooking) {
+                if (isBooking == true) {
+                    document.getElementById(ticket).innerText = '$' + totalPrice;
+                }
+                else if (isBooking == false) {
+                    document.getElementById(ticket).innerText = totalPrice;
+                }
             }
         </script>
 

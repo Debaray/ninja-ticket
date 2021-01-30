@@ -45,11 +45,27 @@ nav ul li a:hover, a.active{
     align-items: center;
 }
 .booking-form{
+    display: block;
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 25px;
     border-radius: 5px;
     float: left;
+
+}
+.congratulation-message{
+     display: none;
+     background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 25px;
+    border-radius: 5px;
+    float: left;
+}
+.congratulation-message span{
+    margin-left : 20px ;
+}
+.congratulation-message h5{
+    margin-top : 10px ;
 }
 .booking-form h3{
     margin: 10px 0px;

@@ -162,21 +162,23 @@
                 }
                 setCongratulationsText();
             }
-            //set text if successfully booking tickets
+
+            //set inner text if successfully booking tickets
             function setCongratulationsText() {
                 const firstClassQuantity = getValue('first-class-input');
-                setInnerText('first-class-quantity', firstClassQuantity,false);
+                setInnerText('first-class-quantity', firstClassQuantity, false);
                 const economyQuantity = getValue('economy-input');
-                setInnerText('economy-quantity', economyQuantity,false);
+                setInnerText('economy-quantity', economyQuantity, false);
 
                 const subTotal = document.getElementById('sub-total').innerText;
-                setInnerText('congrats-sub-total', subTotal,false);
+                setInnerText('congrats-sub-total', subTotal, false);
 
                 const tax = document.getElementById('tax').innerText;
-                setInnerText('congrats-tax', tax,false);
+                setInnerText('congrats-tax', tax, false);
 
                 const grandTotal = document.getElementById('grand-total').innerText;
-                setInnerText('congrats-grand-total', grandTotal,false);
+                setInnerText('congrats-grand-total', grandTotal, false);
+                
                 document.getElementById('booking-box').style.display = "none";
                 document.getElementById('congratulation-box').style.display = "block";
             }
@@ -250,7 +252,5 @@
                 }
             }
         </script>
-
 </body>
-
 </html>

@@ -53,13 +53,15 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input id="first-class-input" onclick="handleTicketBookingByClick('first-class')" class="inp-style inp-width form-control" type="number" name="">
+                    <input id="first-class-input" onclick="handleTicketBookingByClick('first-class')"
+                        oninput="handleTicketBookByTyping('first-class')" class="inp-style inp-width form-control"
+                        type="number" name="">
                 </div>
                 <div class="f-class">
-                    <button onclick="handleTicketBookingByButton('first-class',true)" class="btn-style plus-minus-btn"><i
-                            class="fas fa-plus"></i></button>
-                    <button onclick="handleTicketBookingByButton('first-class',false)" class="btn-style plus-minus-btn"><i
-                            class="fas fa-minus"></i></button>
+                    <button onclick="handleTicketBookingByButton('first-class',true)"
+                        class="btn-style plus-minus-btn"><i class="fas fa-plus"></i></button>
+                    <button onclick="handleTicketBookingByButton('first-class',false)"
+                        class="btn-style plus-minus-btn"><i class="fas fa-minus"></i></button>
                     <!-- <p>+ -</p> -->
                 </div>
             </div>
@@ -67,7 +69,8 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input id="economy-input" onclick="handleTicketBookingByClick('economy')" class="inp-style inp-width" type="number" name="">
+                    <input id="economy-input" onclick="handleTicketBookingByClick('economy')"
+                        oninput="handleTicketBookByTyping('economy')" class="inp-style inp-width" type="number" name="">
                 </div>
                 <div class="f-class">
                     <button onclick="handleTicketBookingByButton('economy',true)" class="btn-style plus-minus-btn"><i
@@ -105,7 +108,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button onclick="bookTicketNow()" class="btn-style">Book Now</button>
         </div>
 
         <div class="booking-content">
@@ -116,15 +119,37 @@
         </div>
         </section>
         <script>
-            function handleTicketBookingByClick(ticket){
-                let ticketCount = getValue(ticket + '-input');
-                if(ticketCount < 0)
+
+            function bookTicketNow(){
+                const firstClassInput = getValue('first-class-input');
+                const economyInput = getValue('economy-input');
+                if(firstClassInput <= 0 && economyInput <= 0)
                 {
+                    alert("Alert!!Please input at least any type of ticket!");
+                    return;
+                }
+            }
+            //handled when the user gives input by typing
+            function handleTicketBookByTyping(ticket) {
+                let ticketCount = getValue(ticket + '-input');
+                if (ticketCount == "NaN") {
                     ticketCount = 0;
                 }
                 document.getElementById(ticket + '-input').value = ticketCount;
                 calculateTotal();
             }
+
+            //handled when the user gives input by click on the textbox
+            function handleTicketBookingByClick(ticket) {
+                let ticketCount = getValue(ticket + '-input');
+                if (ticketCount < 0) {
+                    ticketCount = 0;
+                }
+                document.getElementById(ticket + '-input').value = ticketCount;
+                calculateTotal();
+            }
+
+            //handled when the user gives input by click on the button
             function handleTicketBookingByButton(ticket, isIncrease) {
                 const ticketCount = getValue(ticket + '-input');
                 let ticketNewCount = ticketCount;
@@ -154,9 +179,9 @@
 
             function getValue(ticket) {
                 const ticketInput = document.getElementById(ticket);
-
                 let ticketCount = 0;
-                if (ticketInput.value != "") {
+                //prevent input "+ - or null" from user 
+                if (ticketInput.value != "" && ticketInput.value != "-" && ticketInput.value != "+") {
                     ticketCount = parseInt(ticketInput.value);
                 }
                 return ticketCount;
